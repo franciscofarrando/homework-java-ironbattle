@@ -1,17 +1,26 @@
 package org.example;
 
+import java.util.UUID;
+
 public class CharacterClass {
     private String id;
     private String name;
     private int hp;
     private final boolean isAlive = true;
 
+
+//constructor method
     public CharacterClass(String name, int hp) {
-        setName(name);
-        setHp(hp);
+        this.id= UUID.randomUUID().toString();
+        this.name = name;
+        this.hp = hp;
     }
 
-    public String getName() {
+
+
+
+   //getters y setters
+     public String getName() {
         return name;
     }
 
