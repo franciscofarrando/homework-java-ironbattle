@@ -8,7 +8,7 @@ public class Warrior extends CharacterClass implements IAttacker {
     private int stamina = random.nextInt(41) + 10;
     private int strength=random.nextInt(10)+1;
 
-    public Warrior( int stamina, int strength) {
+    public Warrior( String name, int hp, int stamina, int strength) {
         super(name,hp);
         this.stamina = stamina;
         this.strength = strength;

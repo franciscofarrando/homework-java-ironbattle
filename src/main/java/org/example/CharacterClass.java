@@ -6,17 +6,18 @@ public class CharacterClass {
     private String id;
     private String name;
     private int hp;
-    private final boolean isAlive = true;
+    private boolean isAlive;
+
 
 
 //constructor method
     public CharacterClass(String name, int hp) {
-        this.id= UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.hp = hp;
+        this.isAlive=true;
+
+add
     }
-
-
 
 
    //getters y setters
@@ -34,5 +35,12 @@ public class CharacterClass {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public boolean hasAlive() {
+        return isAlive;
+    }
+    public void setAlive(boolean isAlive){
+        this.isAlive=isAlive;
     }
 }

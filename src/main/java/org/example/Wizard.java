@@ -3,17 +3,17 @@ package org.example;
 import java.util.Random;
 
 // Wizard class extending Character and implementing Attacker interface
-public class Wizard /*extends Character implements Attacker*/ {
+public class Wizard extends CharacterClass implements IAttacker {
     Random random = new Random();
-    private int mana;
-    private int intelligence;
+    private int mana= random.nextInt(41) + 10; // Mana between 10-50
+    private int intelligence= random.nextInt(50) + 1; // Intelligence between 1-50;
 
 
     // Constructor
-    public Wizard(String name) {
-        super(name, random.nextInt(51) + 50); // HP between 50-100
-        this.mana = random.nextInt(41) + 10; // Mana between 10-50
-        this.intelligence = random.nextInt(50) + 1; // Intelligence between 1-50
+    public Wizard(String name, int hp, int mana, int intelligence) {
+        super(name, hp); // HP between 50-100
+        this.mana=mana;
+        this.intelligence=intelligence;
     }
 
     // Getters
@@ -32,5 +32,10 @@ public class Wizard /*extends Character implements Attacker*/ {
 
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
+    }
+
+    @Override
+    public void attack() {
+
     }
 }
