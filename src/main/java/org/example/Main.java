@@ -23,10 +23,10 @@ public class Main {
             scanner.nextLine(); // limpiar buffer
 
             switch (option) {
-                case 1 -> crearGuerrero();
-                case 2 -> crearMago();
-                case 3 -> iniciarBatalla();
-                case 4 -> importarPersonajesDesdeCSV();
+                case 1 -> createWarrior();
+                case 2 -> createWizard();
+                case 3 -> startBattle();
+                case 4 -> importCharacterfromCvs();
                 case 5 -> {
                     System.out.println("Saliendo...");
                     return;
@@ -36,7 +36,7 @@ public class Main {
         }
     }
 
-    public static void crearGuerrero() {
+    public static void createWarrior() {
         if (fighter1 != null && fighter2 != null) {
             System.out.println("Ya tienes dos personajes.");
             return;
@@ -59,7 +59,7 @@ public class Main {
         System.out.println(name + " - HP: " + hp + ", Stamina: " + stamina + ", Strength: " + strength);
     }
 
-    public static void crearMago() {
+    public static void createWizard() {
         if (fighter1 != null && fighter2 != null) {
             System.out.println("Ya tienes dos personajes.");
             return;
@@ -82,7 +82,7 @@ public class Main {
         System.out.println(name + " - HP: " + hp + ", Mana: " + mana + ", Intelligence: " + intelligence);
     }
 
-    public static void iniciarBatalla() {
+    public static void startBattle() {
         if (fighter1 == null || fighter2 == null) {
             System.out.println("Debes crear dos personajes antes de batallar.");
             return;
@@ -116,7 +116,7 @@ public class Main {
         fighter2 = null;
     }
 
-    public static void importarPersonajesDesdeCSV() {
+    public static void importCharacterfromCvs() {
         if (fighter1 != null && fighter2 != null) {
             System.out.println("Ya tienes dos personajes.");
             return;
