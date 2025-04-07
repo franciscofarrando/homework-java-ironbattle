@@ -1,17 +1,167 @@
 package org.example;
+import java.util.Random;
+import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    static Scanner scanner = new Scanner(System.in);
+    static IAttacker fighter1 = null;
+    static IAttacker fighter2 = null;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\n== MENÚ RPG BATTLE ==");
+            System.out.println("1. Crear Guerrero");
+            System.out.println("2. Crear Mago");
+            System.out.println("3. Iniciar Batalla");
+            System.out.println("4. Importar personajes desde CSV");
+            System.out.println("5. Salir");
+            System.out.print("Opción: ");
+            int option = scanner.nextInt();
+            scanner.nextLine(); // limpiar buffer
+
+            switch (option) {
+                case 1 -> crearGuerrero();
+                case 2 -> crearMago();
+                case 3 -> iniciarBatalla();
+                case 4 -> importarPersonajesDesdeCSV();
+                case 5 -> {
+                    System.out.println("Saliendo...");
+                    return;
+                }
+                default -> System.out.println("Opción inválida.");
+            }
+        }
+    }
+
+    public static void crearGuerrero() {
+        if (fighter1 != null && fighter2 != null) {
+            System.out.println("Ya tienes dos personajes.");
+            return;
+        }
+
+        System.out.print("Nombre del Guerrero: ");
+        String name = scanner.nextLine();
+
+        Random rand = new Random();
+        int hp = rand.nextInt(101) + 100;          // 100-200
+        int stamina = rand.nextInt(41) + 10;       // 10-50
+        int strength = rand.nextInt(10) + 1;       // 1-10
+
+        Warrior warrior = new Warrior(name, hp, stamina, strength);
+
+        if (fighter1 == null) fighter1 = warrior;
+        else fighter2 = warrior;
+
+        System.out.println("Guerrero creado:");
+        System.out.println(name + " - HP: " + hp + ", Stamina: " + stamina + ", Strength: " + strength);
+    }
+
+    public static void crearMago() {
+        if (fighter1 != null && fighter2 != null) {
+            System.out.println("Ya tienes dos personajes.");
+            return;
+        }
+
+        System.out.print("Nombre del Mago: ");
+        String name = scanner.nextLine();
+
+        Random rand = new Random();
+        int hp = rand.nextInt(51) + 50;            // 50-100
+        int mana = rand.nextInt(41) + 10;          // 10-50
+        int intelligence = rand.nextInt(50) + 1;   // 1-50
+
+        Wizard wizard = new Wizard(name, hp, mana, intelligence);
+
+        if (fighter1 == null) fighter1 = wizard;
+        else fighter2 = wizard;
+
+        System.out.println("Mago creado:");
+        System.out.println(name + " - HP: " + hp + ", Mana: " + mana + ", Intelligence: " + intelligence);
+    }
+
+    public static void iniciarBatalla() {
+        if (fighter1 == null || fighter2 == null) {
+            System.out.println("Debes crear dos personajes antes de batallar.");
+            return;
+        }
+
+        CharacterClass c1 = (CharacterClass) fighter1;
+        CharacterClass c2 = (CharacterClass) fighter2;
+
+        System.out.println("\n¡BATALLA INICIA!");
+        System.out.println(c1.getName() + " vs " + c2.getName());
+
+        int ronda = 1;
+        while (c1.isAlive() && c2.isAlive()) {
+            System.out.println("\n--- Ronda " + ronda + " ---");
+            fighter1.attack(c2);
+            fighter2.attack(c1);
+            System.out.println(c1.getName() + " HP: " + c1.getHp());
+            System.out.println(c2.getName() + " HP: " + c2.getHp());
+            ronda++;
+        }
+
+        if (!c1.isAlive() && !c2.isAlive()) {
+            System.out.println("\n¡Empate! Ambos personajes cayeron.");
+        } else if (c1.isAlive()) {
+            System.out.println("\n¡" + c1.getName() + " ha ganado!");
+        } else {
+            System.out.println("\n¡" + c2.getName() + " ha ganado!");
+        }
+
+        fighter1 = null;
+        fighter2 = null;
+    }
+
+    public static void importarPersonajesDesdeCSV() {
+        if (fighter1 != null && fighter2 != null) {
+            System.out.println("Ya tienes dos personajes.");
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader("characters.csv"))) {
+            String line;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // skip header
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length < 2) continue;
+
+                String type = parts[0].trim().toLowerCase();
+                String name = parts[1].trim();
+
+                Random rand = new Random();
+
+                if (type.equals("warrior")) {
+                    int hp = rand.nextInt(101) + 100;
+                    int stamina = rand.nextInt(41) + 10;
+                    int strength = rand.nextInt(10) + 1;
+                    Warrior warrior = new Warrior(name, hp, stamina, strength);
+                    if (fighter1 == null) fighter1 = warrior;
+                    else fighter2 = warrior;
+                } else if (type.equals("wizard")) {
+                    int hp = rand.nextInt(51) + 50;
+                    int mana = rand.nextInt(41) + 10;
+                    int intelligence = rand.nextInt(50) + 1;
+                    Wizard wizard = new Wizard(name, hp, mana, intelligence);
+                    if (fighter1 == null) fighter1 = wizard;
+                    else fighter2 = wizard;
+                }
+
+                if (fighter1 != null && fighter2 != null) break;
+            }
+
+            System.out.println("Personajes importados correctamente.");
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo CSV.");
+            e.printStackTrace();
         }
     }
 }
