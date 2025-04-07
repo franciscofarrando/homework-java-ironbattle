@@ -2,45 +2,26 @@ package org.example;
 
 import java.util.UUID;
 
-public class CharacterClass {
-    private String id;
-    private String name;
+public abstract class CharacterClass {
+    private final String id;
+    private final String name;
     private int hp;
     private boolean isAlive;
 
-
-
-//constructor method
     public CharacterClass(String name, int hp) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
-        this.isAlive=true;
-
-add
+        this.hp = hp;
+        this.isAlive = true;
     }
 
-
-   //getters y setters
-     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getHp() {
-        return hp;
-    }
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public int getHp() { return hp; }
+    public boolean isAlive() { return isAlive; }
 
     public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public boolean hasAlive() {
-        return isAlive;
-    }
-    public void setAlive(boolean isAlive){
-        this.isAlive=isAlive;
+        this.hp = Math.max(0, hp);
+        this.isAlive = this.hp > 0;
     }
 }

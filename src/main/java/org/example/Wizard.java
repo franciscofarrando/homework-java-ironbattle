@@ -1,41 +1,32 @@
 package org.example;
 
-import java.util.Random;
-
-// Wizard class extending Character and implementing Attacker interface
 public class Wizard extends CharacterClass implements IAttacker {
-    Random random = new Random();
-    private int mana= random.nextInt(41) + 10; // Mana between 10-50
-    private int intelligence= random.nextInt(50) + 1; // Intelligence between 1-50;
+    private int mana;
+    private final int intelligence;
 
-
-    // Constructor
     public Wizard(String name, int hp, int mana, int intelligence) {
-        super(name, hp); // HP between 50-100
-        this.mana=mana;
-        this.intelligence=intelligence;
-    }
-
-    // Getters
-    public int getMana() {
-        return mana;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    // Setters
-    public void setMana(int mana) {
+        super(name, hp);
         this.mana = mana;
-    }
-
-    public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
     }
 
     @Override
-    public void attack() {
+    public void attack(CharacterClass target) {
+        if (mana >= 5) {
+            target.setHp(target.getHp() - intelligence);
+            mana -= 5;
+            System.out.println(getName() + " lanzó Bola de Fuego, daño: " + intelligence);
+        } else if (mana >= 1) {
+            target.setHp(target.getHp() - 2);
+            mana += 1;
+            System.out.println(getName() + " golpeó con Bastón, daño: 2");
+        } else {
+            mana += 2;
+            System.out.println(getName() + " no tiene maná y no pudo atacar. Recuperó 2 de maná.");
+        }
+    }
 
+    public String getStats() {
+        return "HP: " + getHp() + ", Mana: " + mana + ", Intelligence: " + intelligence;
     }
 }
