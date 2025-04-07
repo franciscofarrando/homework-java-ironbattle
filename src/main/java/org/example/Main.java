@@ -26,7 +26,7 @@ public class Main {
                 case 1 -> createWarrior();
                 case 2 -> createWizard();
                 case 3 -> startBattle();
-                case 4 -> importCharacterfromCvs();
+                case 4 -> importCharactersFromCvs();
                 case 5 -> {
                     System.out.println("Saliendo...");
                     return;
@@ -116,7 +116,7 @@ public class Main {
         fighter2 = null;
     }
 
-    public static void importCharacterfromCvs() {
+    public static void importCharactersFromCvs() {
         if (fighter1 != null && fighter2 != null) {
             System.out.println("Ya tienes dos personajes.");
             return;
