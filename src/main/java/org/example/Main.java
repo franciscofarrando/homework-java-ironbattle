@@ -17,7 +17,8 @@ public class Main {
             System.out.println("2. Crear Mago");
             System.out.println("3. Iniciar Batalla");
             System.out.println("4. Importar personajes desde CSV");
-            System.out.println("5. Salir");
+            System.out.println("5. Simular Batalla");
+            System.out.println("6. Salir");
             System.out.print("Opción: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // limpiar buffer
@@ -27,7 +28,8 @@ public class Main {
                 case 2 -> createWizard();
                 case 3 -> startBattle();
                 case 4 -> importCharactersFromCvs();
-                case 5 -> {
+                case 5 ->SimulationFight.simulator();
+                case 6 -> {
                     System.out.println("Saliendo...");
                     return;
                 }
@@ -122,7 +124,8 @@ public class Main {
             return;
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader("characters.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(
+                "src/main/java/org/example/characters.csv"))) {
             String line;
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
