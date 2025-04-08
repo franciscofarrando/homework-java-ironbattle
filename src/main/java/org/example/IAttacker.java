@@ -1,8 +1,5 @@
 package org.example;
 
 public interface IAttacker {
-
-    public void attack();
-
-
+    void attack(CharacterClass target);
 }
