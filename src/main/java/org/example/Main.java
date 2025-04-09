@@ -169,8 +169,8 @@ public class Main {
     }
     public static void simulator() {
         // generate Character
-        IAttacker fighter1 = (IAttacker) generateCharacter();
-        IAttacker fighter2 = (IAttacker) generateCharacter();
+         fighter1 = (IAttacker) generateCharacter();
+         fighter2 = (IAttacker) generateCharacter();
         startBattle();
 
     }
