@@ -28,7 +28,7 @@ public class Main {
                 case 2 -> createWizard();
                 case 3 -> startBattle();
                 case 4 -> importCharactersFromCvs();
-                case 5 ->SimulationFight.simulator();
+                case 5 ->simulator();
                 case 6 -> {
                     System.out.println("Saliendo...");
                     return;
@@ -167,4 +167,60 @@ public class Main {
             e.printStackTrace();
         }
     }
+    public static void simulator() {
+        // generate Character
+        IAttacker fighter1 = (IAttacker) generateCharacter();
+        IAttacker fighter2 = (IAttacker) generateCharacter();
+        startBattle();
+
+    }
+
+
+    public static String generateNameRandom() {
+        Random rand = new Random();
+        // random names for Warrior and Wizards
+        String[] names = {"Juan Jose", "Francisco", "Jose", "Maria", "Pedro", "Lucia",
+                "Luis"};
+        int indexName = rand.nextInt(names.length);
+        // random Name
+        return names[indexName];
+    }
+
+    public static String generateTypeRandom() {
+        Random rand = new Random();
+        // types
+        String[] typePlayer = {"Warrior", "Wizard"};
+        int indexType = rand.nextInt(typePlayer.length);
+        // random Type
+        return typePlayer[indexType];
+    }
+
+
+    public static Object generateCharacter() {
+        Object character;
+        Random rand = new Random();
+        int hp = rand.nextInt(101) + 100;          // 100-200
+        int stamina = rand.nextInt(41) + 10;       // 10-50
+        int strength = rand.nextInt(10) + 1;
+        String randomName = generateNameRandom();
+        String playerType = generateTypeRandom();
+
+
+        if (playerType.equals("Wizard")) {
+            Wizard wz = new Wizard(randomName, hp, stamina, strength);
+            character = wz;
+            return character;
+        }
+
+        Warrior wr = new Warrior(randomName, hp, stamina, strength);
+        character = wr;
+        return character;
+
+
+    }
+
+
+
+
+
 }
