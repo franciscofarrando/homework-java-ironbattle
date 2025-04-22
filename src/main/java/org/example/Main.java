@@ -17,17 +17,19 @@ public class Main {
             System.out.println("2. Crear Mago");
             System.out.println("3. Iniciar Batalla");
             System.out.println("4. Importar personajes desde CSV");
-            System.out.println("5. Salir");
+            System.out.println("5. Simular Batalla");
+            System.out.println("6. Salir");
             System.out.print("Opción: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // limpiar buffer
 
             switch (option) {
-                case 1 -> crearGuerrero();
-                case 2 -> crearMago();
-                case 3 -> iniciarBatalla();
-                case 4 -> importarPersonajesDesdeCSV();
-                case 5 -> {
+                case 1 -> createWarrior();
+                case 2 -> createWizard();
+                case 3 -> startBattle();
+                case 4 -> importCharactersFromCvs();
+                case 5 ->simulator();
+                case 6 -> {
                     System.out.println("Saliendo...");
                     return;
                 }
@@ -36,7 +38,7 @@ public class Main {
         }
     }
 
-    public static void crearGuerrero() {
+    public static void createWarrior() {
         if (fighter1 != null && fighter2 != null) {
             System.out.println("Ya tienes dos personajes.");
             return;
@@ -59,7 +61,7 @@ public class Main {
         System.out.println(name + " - HP: " + hp + ", Stamina: " + stamina + ", Strength: " + strength);
     }
 
-    public static void crearMago() {
+    public static void createWizard() {
         if (fighter1 != null && fighter2 != null) {
             System.out.println("Ya tienes dos personajes.");
             return;
@@ -82,7 +84,7 @@ public class Main {
         System.out.println(name + " - HP: " + hp + ", Mana: " + mana + ", Intelligence: " + intelligence);
     }
 
-    public static void iniciarBatalla() {
+    public static void startBattle() {
         if (fighter1 == null || fighter2 == null) {
             System.out.println("Debes crear dos personajes antes de batallar.");
             return;
@@ -116,13 +118,14 @@ public class Main {
         fighter2 = null;
     }
 
-    public static void importarPersonajesDesdeCSV() {
+    public static void importCharactersFromCvs() {
         if (fighter1 != null && fighter2 != null) {
             System.out.println("Ya tienes dos personajes.");
             return;
         }
 
-        try (BufferedReader br = new BufferedReader(new FileReader("characters.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(
+                "src/main/java/org/example/characters.csv"))) {
             String line;
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
@@ -164,4 +167,60 @@ public class Main {
             e.printStackTrace();
         }
     }
+    public static void simulator() {
+        // generate Character
+         fighter1 = (IAttacker) generateCharacter();
+         fighter2 = (IAttacker) generateCharacter();
+        startBattle();
+
+    }
+
+
+    public static String generateNameRandom() {
+        Random rand = new Random();
+        // random names for Warrior and Wizards
+        String[] names = {"Juan Jose", "Francisco", "Jose", "Maria", "Pedro", "Lucia",
+                "Luis"};
+        int indexName = rand.nextInt(names.length);
+        // random Name
+        return names[indexName];
+    }
+
+    public static String generateTypeRandom() {
+        Random rand = new Random();
+        // types
+        String[] typePlayer = {"Warrior", "Wizard"};
+        int indexType = rand.nextInt(typePlayer.length);
+        // random Type
+        return typePlayer[indexType];
+    }
+
+
+    public static Object generateCharacter() {
+        Object character;
+        Random rand = new Random();
+        int hp = rand.nextInt(101) + 100;          // 100-200
+        int stamina = rand.nextInt(41) + 10;       // 10-50
+        int strength = rand.nextInt(10) + 1;
+        String randomName = generateNameRandom();
+        String playerType = generateTypeRandom();
+
+
+        if (playerType.equals("Wizard")) {
+            Wizard wz = new Wizard(randomName, hp, stamina, strength);
+            character = wz;
+            return character;
+        }
+
+        Warrior wr = new Warrior(randomName, hp, stamina, strength);
+        character = wr;
+        return character;
+
+
+    }
+
+
+
+
+
 }
